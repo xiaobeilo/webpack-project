@@ -12,7 +12,7 @@ module.exports = {
     chunkFilename: '[name].[id].[chunkhash].js',
   },
   resolve: {
-    extensions: ['*', '.js', 'jsx', 'ts', '.vue', '.json'],
+    extensions: ['*', '.js', '.jsx', '.ts', '.vue', '.json'],
     alias: {
       '@': path.join(__dirname, '../src'),
     }
@@ -30,10 +30,7 @@ module.exports = {
         ],
         use: [
           {
-            loader: 'babel-loader',
-            options: {
-              presets: ['@babel/preset-env']
-            }
+            loader: 'babel-loader'
           }
         ]
       },
@@ -53,27 +50,68 @@ module.exports = {
           }
         ]
       },
-      // {
-      //   test: /\.html$/,
-      //   use: [{
-      //     loader: 'html-loader',
-      //     options: {
-      //       root: path.resolve(__dirname, '../src'),
-      //       attrs: ['img:src', 'link:href']
-      //     }
-      //   }]
-      // },
-      // {
-      //   test: /\.(png|jpg|jpeg|gif|eot|ttf|woff|woff2|svg|svgz)(\?.+)?$/,
-      //   exclude: /favicon\.png$/,
-      //   use: [{
-      //     loader: 'url-loader',
-      //     options: {
-      //       limit: 1000,
-      //       name: 'assets/img/[name].[hash:12].[ext]'
-      //     }
-      //   }]
-      // }
+      {
+        test: /\.(svg)(\?.*)?$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: 'img/[name].[hash:8].[ext]'
+            }
+          }
+        ]
+      },
+      {
+        test: /\.(png|jpe?g|gif|webp)(\?.*)?$/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 4096,
+              fallback: {
+                loader: 'file-loader',
+                options: {
+                  name: 'img/[name].[hash:8].[ext]'
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 4096,
+              fallback: {
+                loader: 'file-loader',
+                options: {
+                  name: 'media/[name].[hash:8].[ext]'
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/i,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 4096,
+              fallback: {
+                loader: 'file-loader',
+                options: {
+                  name: 'fonts/[name].[hash:8].[ext]'
+                }
+              }
+            }
+          }
+        ]
+      },
     ]
   },
   plugins: [

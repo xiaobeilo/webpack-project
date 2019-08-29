@@ -4,26 +4,8 @@ const devConfig = require('../config/webpack.dev.config')
 const webpackDevMiddleware = require('webpack-dev-middleware')
 const merge = require('webpack-merge')
 const express = require('express')
-const httpPrpxy = require('http-proxy-middleware')
-
-const proxyMiddleware = async (ctx, next) => {
-  var options = {
-    target: 'http://www.example.org', // target host
-    changeOrigin: true, // needed for virtual hosted sites
-    ws: true, // proxy websockets
-    pathRewrite: {
-      '^/api/old-path': '/api/new-path', // rewrite path
-      '^/api/remove/path': '/path' // remove base path
-    },
-    router: {
-      // when request.headers.host == 'dev.localhost:3000',
-      // override target 'http://www.example.org' to 'http://localhost:8000'
-      'dev.localhost:3000': 'http://localhost:8000'
-    }
-  }
-  return httpPrpxy(options)
-}
-
+const proxy = require('http-proxy-middleware')
+const timeout = require('connect-timeout')
 
 function createServer (webpackConfig) {
   const compiler = webpack(webpackConfig)
@@ -31,7 +13,11 @@ function createServer (webpackConfig) {
   app.use(webpackDevMiddleware(compiler, {
     publicPath: '/'
   }))
-  app.use(proxyMiddleware)
+  app.use(timeout(5000))
+  app.use('/api', proxy({
+    target: 'https://biaochenxuying.cn',
+    changeOrigin: true
+  }))
   app.listen(3000, () => console.log('Example app listening on port 3000!'))
 }
 
