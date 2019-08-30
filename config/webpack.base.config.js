@@ -1,15 +1,30 @@
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const threadLoader = require('thread-loader')
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const path = require('path')
+
+threadLoader.warmup({
+  // pool options, like passed to loader options
+  // must match loader options to boot the correct pool
+}, [
+  // modules to load
+  // can be any module, i. e.
+  'babel-loader',
+  'ts-loader',
+  'vue-loader',
+])
 
 module.exports = {
   mode: 'production',
-  entry: path.resolve(__dirname, '../src/main.ts'),
+  entry: [
+    path.resolve(__dirname, '../src/main.ts')
+  ],
   // entry: path.resolve(__dirname, '../src/main.js'),
   output: {
     path: path.resolve(__dirname, `../dist`),
-    filename: 'bundle.js',
-    chunkFilename: '[name].[id].[chunkhash].js',
+    filename: '[name].[contenthash:8].js',
+    chunkFilename: '[name].[contenthash:8].js',
   },
   resolve: {
     extensions: ['*', '.js', '.jsx', '.ts', '.vue', '.json'],
@@ -21,16 +36,34 @@ module.exports = {
     rules: [
       {
         test: /\.vue$/,
-        loader: 'vue-loader'
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'cache-loader'
+          },
+          {
+            loader: 'thread-loader'
+          },
+          {
+            loader: 'vue-loader'
+          }
+        ]
       },
       {
         test: /\.js$/,
+        exclude: /node_modules/,
         include: [
           path.resolve(__dirname, '../src')
         ],
         use: [
           {
-            loader: 'babel-loader'
+            loader: 'cache-loader'
+          },
+          {
+            loader: 'thread-loader'
+          },
+          {
+            loader: 'babel-loader',
           }
         ]
       },
@@ -39,13 +72,23 @@ module.exports = {
         exclude: /node_modules/,
         use: [
           {
+            loader: 'cache-loader'
+          },
+          {
+            loader: 'thread-loader',
+            options: {
+              poolTimeout: Infinity
+            }
+          },
+          {
             loader: 'babel-loader',
           },
           {
             loader: "ts-loader",
             options: {
               transpileOnly: false,
-              appendTsxSuffixTo: [/\.vue$/]
+              appendTsxSuffixTo: [/\.vue$/],
+              happyPackMode: true
             }
           }
         ]
@@ -115,6 +158,7 @@ module.exports = {
     ]
   },
   plugins: [
+    new ForkTsCheckerWebpackPlugin({ checkSyntacticErrors: true }),
     new VueLoaderPlugin(),
     new HtmlWebpackPlugin({
       filename: 'index.html',

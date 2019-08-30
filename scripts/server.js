@@ -6,6 +6,7 @@ const merge = require('webpack-merge')
 const express = require('express')
 const proxy = require('http-proxy-middleware')
 const timeout = require('connect-timeout')
+const webpackHotMiddleware = require('webpack-hot-middleware')
 
 function createServer (webpackConfig) {
   const compiler = webpack(webpackConfig)
@@ -18,6 +19,9 @@ function createServer (webpackConfig) {
     target: 'https://biaochenxuying.cn',
     changeOrigin: true
   }))
+  app.use(webpackHotMiddleware(compiler, {
+    log: console.log, path: '/__webpack_hmr', heartbeat: 10 * 1000
+  }));
   app.listen(3000, () => console.log('Example app listening on port 3000!'))
 }
 

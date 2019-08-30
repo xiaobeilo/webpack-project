@@ -1,5 +1,12 @@
 module.exports = {
   mode: 'development',
+  entry: [
+    'webpack-hot-middleware/client?reload=true'
+  ],
+  output: {
+    filename: '[name].js',
+    chunkFilename: 'chunk-[name].js',
+  },
   module: {
     rules: [
       {
@@ -42,4 +49,8 @@ module.exports = {
       }
     }
   },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoEmitOnErrorsPlugin()
+  ]
 }
