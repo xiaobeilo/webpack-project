@@ -7,6 +7,20 @@ const express = require('express')
 const proxy = require('http-proxy-middleware')
 const timeout = require('connect-timeout')
 const webpackHotMiddleware = require('webpack-hot-middleware')
+const threadLoader = require('thread-loader')
+const envList = require('../env')
+const env = process.argv[2] || 'dev'
+
+threadLoader.warmup({
+  // pool options, like passed to loader options
+  // must match loader options to boot the correct pool
+}, [
+  // modules to load
+  // can be any module, i. e.
+  'babel-loader',
+  'ts-loader',
+  'vue-loader',
+])
 
 function createServer (webpackConfig) {
   const compiler = webpack(webpackConfig)
@@ -25,6 +39,10 @@ function createServer (webpackConfig) {
   app.listen(3000, () => console.log('Example app listening on port 3000!'))
 }
 
-const output = merge(baseConfig, devConfig)
+const output = merge(baseConfig, devConfig, {
+  plugins: [
+    new webpack.DefinePlugin(envList[env])
+  ]
+})
 
 createServer(output)

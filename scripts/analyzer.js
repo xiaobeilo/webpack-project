@@ -1,15 +1,27 @@
 const webpack = require('webpack')
 const merge = require('webpack-merge')
 const baseConfig = require('../config/webpack.base.config')
+const devConfig = require('../config/webpack.dev.config')
 const prodConfig = require('../config/webpack.prod.config')
-const envList = require('../env')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const path = require('path')
+const pkg = require('../package.json')
 
-const env = process.argv[2] || 'prod'
-const output = merge(baseConfig, prodConfig, {
+let arg = process.argv[2]
+
+// config 配置修改 结束
+
+var output = merge(baseConfig, arg === 'dev' ? devConfig : prodConfig, {
   plugins: [
-    new webpack.DefinePlugin(envList[env])
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'static',
+      openAnalyzer: false,
+      generateStatsFile: true,
+      reportFilename: path.join(__dirname, '../analyzer') + (arg === 'dev' ? '/report-dev' : '/report') + `-${pkg.version}.html`
+    })
   ]
 })
+console.log(pkg)
 
 webpack(output, (err, stats) => {
   if (err) {

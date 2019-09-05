@@ -1,26 +1,13 @@
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const threadLoader = require('thread-loader')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const path = require('path')
-
-threadLoader.warmup({
-  // pool options, like passed to loader options
-  // must match loader options to boot the correct pool
-}, [
-  // modules to load
-  // can be any module, i. e.
-  'babel-loader',
-  'ts-loader',
-  'vue-loader',
-])
 
 module.exports = {
   mode: 'production',
   entry: [
     path.resolve(__dirname, '../src/main.ts')
   ],
-  // entry: path.resolve(__dirname, '../src/main.js'),
   output: {
     path: path.resolve(__dirname, `../dist`),
     filename: '[name].[contenthash:8].js',
