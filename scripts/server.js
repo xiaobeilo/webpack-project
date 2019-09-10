@@ -8,7 +8,9 @@ const proxy = require('http-proxy-middleware')
 const timeout = require('connect-timeout')
 const webpackHotMiddleware = require('webpack-hot-middleware')
 const threadLoader = require('thread-loader')
+const DashboardPlugin = require("webpack-dashboard/plugin");
 const envList = require('../env')
+
 const env = process.argv[2] || 'dev'
 
 threadLoader.warmup({
@@ -24,6 +26,9 @@ threadLoader.warmup({
 
 function createServer (webpackConfig) {
   const compiler = webpack(webpackConfig)
+
+  compiler.apply(new DashboardPlugin())
+
   const app = express()
   app.use(webpackDevMiddleware(compiler, {
     publicPath: '/'

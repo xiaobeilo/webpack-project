@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "server": "node scripts/server.js",
-    "server:prod": "node scripts/server.js prod",
-    "server:uat": "node scripts/server.js uat",
+    "server": "webpack-dashboard -- node scripts/server.js",
+    "server:prod": "webpack-dashboard -- node scripts/server.js prod",
+    "server:uat": "webpack-dashboard -- node scripts/server.js uat",
     "nginx": "node scripts/nginx.js",
     "build": "node scripts/build.js",
     "build:sit": "node scripts/build.js sit",
@@ -59,6 +59,7 @@
     "webpack": "^4.39.3",
     "webpack-bundle-analyzer": "^3.4.1",
     "webpack-cli": "^3.3.7",
+    "webpack-dashboard": "^3.2.0",
     "webpack-dev-middleware": "^3.7.0",
     "webpack-hot-middleware": "^2.25.0",
     "webpack-merge": "^4.2.2"
