@@ -17,18 +17,20 @@
     "analyzer:dev": "node scripts/analyzer.js dev",
     "release": "standard-version",
     "beta": "standard-version --prerelease beta && npm publish --tag=beta",
-    "commit": "git add . && npx git-cz"
+    "commit": "git add . && npx git-cz",
+    "test": "mochapack test/app.spec.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "vue": "^2.6.10",
-    "core-js": "^3.2.1"
+    "core-js": "^3.2.1",
+    "vue": "^2.6.10"
   },
   "devDependencies": {
     "@babel/core": "^7.5.5",
     "@babel/preset-env": "^7.5.5",
+    "@vue/test-utils": "^1.0.0-beta.29",
     "autoprefixer": "^9.6.1",
     "babel-loader": "^8.0.6",
     "cache-loader": "^4.1.0",
@@ -37,14 +39,20 @@
     "connect-timeout": "^1.9.0",
     "css-loader": "^3.2.0",
     "cz-customizable": "^6.2.0",
+    "expect": "^24.9.0",
     "express": "^4.17.1",
     "file-loader": "^4.2.0",
     "fork-ts-checker-webpack-plugin": "^1.5.0",
     "html-webpack-plugin": "^3.2.0",
     "http-proxy-middleware": "^0.19.1",
+    "ignore-styles": "^5.0.1",
+    "jsdom": "15.1.1",
+    "jsdom-global": "3.0.2",
     "less": "^3.10.3",
     "less-loader": "^5.0.0",
     "mini-css-extract-plugin": "^0.8.0",
+    "mocha": "^6.2.0",
+    "mochapack": "^1.1.4",
     "postcss-loader": "^3.0.0",
     "sass": "^1.22.10",
     "sass-loader": "^7.3.1",
@@ -62,7 +70,8 @@
     "webpack-dashboard": "^3.2.0",
     "webpack-dev-middleware": "^3.7.0",
     "webpack-hot-middleware": "^2.25.0",
-    "webpack-merge": "^4.2.2"
+    "webpack-merge": "^4.2.2",
+    "webpack-node-externals": "^1.7.2"
   },
   "config": {
     "commitizen": {
