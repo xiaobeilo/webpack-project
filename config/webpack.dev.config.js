@@ -1,4 +1,5 @@
 const webpack = require('webpack')
+const path = require('path')
 
 module.exports = {
   mode: 'development',
@@ -12,12 +13,27 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.(js|vue)$/,
+        include: [path.resolve(__dirname, '../src')],
+        enforce: 'pre',
+        use: [
+          {
+            loader: 'eslint-loader',
+            options: {
+              formatter: require('eslint-friendly-formatter'),
+              emitWarning: false,
+              failOnError: false,
+            }
+          }
+        ],
+      },
+      {
         test: /\.(sa|sc)ss$/,
         use: [
           'vue-style-loader',
           'css-loader',
           'postcss-loader',
-          'sass-loader',
+          'sass-loader'
         ]
       },
       {
@@ -26,7 +42,7 @@ module.exports = {
           'vue-style-loader',
           'css-loader',
           'postcss-loader',
-          'less-loader',
+          'less-loader'
         ]
       },
       {
@@ -34,7 +50,7 @@ module.exports = {
         use: [
           'vue-style-loader',
           'css-loader',
-          'postcss-loader',
+          'postcss-loader'
         ]
       }
     ]

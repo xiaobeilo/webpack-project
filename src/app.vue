@@ -3,12 +3,14 @@
     sfadfsdf
   </div>
 </template>
-<script lang="ts">
+<script>
 export default {
-  name: 'app',
+  name: 'Xp',
   components: {},
   data () {
     return {}
+  },
+  created () {
   }
 }
 </script>
