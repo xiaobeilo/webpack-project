@@ -1,11 +1,3 @@
-const env = require('./env')
-let config = Object.keys(env)).reduce((obj, v) => {
-    return {
-      ...obj, 
-      [v]: true
-    }
-  }, {})
-
 module.exports = {
   extends: [
     // add more generic rulesets here, such as:
@@ -21,7 +13,7 @@ module.exports = {
     browser: true
   },
   globals: {
-    ...config
+    APP_ENV: true
   },
   root: true
 }

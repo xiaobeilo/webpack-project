@@ -160,8 +160,5 @@ module.exports = {
         removeAttributeQuotes: true
       }
     })
-  ],
-  performance: {
-    hints: false
-  }
+  ]
 }

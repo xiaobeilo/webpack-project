@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "server": "node scripts/server.js",
-    "server:board": "webpack-dashboard -- node scripts/server.js",
+    "server": "webpack-dashboard -- node scripts/server.js",
     "server:prod": "webpack-dashboard -- node scripts/server.js prod",
     "server:uat": "webpack-dashboard -- node scripts/server.js uat",
     "nginx": "node scripts/nginx.js",
@@ -57,6 +56,7 @@
     "express": "^4.17.1",
     "file-loader": "^4.2.0",
     "fork-ts-checker-webpack-plugin": "^1.5.0",
+    "friendly-errors-webpack-plugin": "^1.7.0",
     "html-webpack-plugin": "^3.2.0",
     "http-proxy-middleware": "^0.19.1",
     "ignore-styles": "^5.0.1",
