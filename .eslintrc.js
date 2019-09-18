@@ -1,3 +1,11 @@
+const env = require('./env')
+let config = Object.keys(env)).reduce((obj, v) => {
+    return {
+      ...obj, 
+      [v]: true
+    }
+  }, {})
+
 module.exports = {
   extends: [
     // add more generic rulesets here, such as:
@@ -9,17 +17,11 @@ module.exports = {
     // override/add rules settings here, such as:
     // 'vue/no-unused-vars': 'error'
   },
-  overrides: [
-    {
-      files: [
-        'src/*.js'
-      ]
-    }
-  ],
   env: {
     browser: true
   },
   globals: {
+    ...config
   },
   root: true
 }

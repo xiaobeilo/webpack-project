@@ -9,8 +9,6 @@ const timeout = require('connect-timeout')
 const webpackHotMiddleware = require('webpack-hot-middleware')
 const threadLoader = require('thread-loader')
 const DashboardPlugin = require("webpack-dashboard/plugin");
-const envList = require('../env')
-
 const env = process.argv[2] || 'dev'
 
 threadLoader.warmup({
@@ -46,7 +44,9 @@ function createServer (webpackConfig) {
 
 const output = merge(baseConfig, devConfig, {
   plugins: [
-    new webpack.DefinePlugin(envList[env])
+    new webpack.DefinePlugin(
+      require('../env')(env)
+    )
   ]
 })
 

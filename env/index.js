@@ -1,13 +1,13 @@
-const uat = require('./uat')
-const prod = require('./prod')
-const dev = require('./dev')
-const local = require('./local')
-const sit = require('./sit')
+const path = require('path')
+const dotenv = require('dotenv')
 
-module.exports = {
-  uat,
-  prod,
-  dev,
-  local,
-  sit
+module.exports = env => {
+  let envConfig = dotenv.config({
+    path: path.resolve(__dirname, `./${env}.env`)
+  })
+  envConfig = envConfig.parsed
+  for (let key in envConfig) {
+    envConfig[key] = JSON.stringify(envConfig[key])
+  }
+  return envConfig
 }
